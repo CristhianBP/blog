@@ -1,4 +1,10 @@
-import { IsString, MinLength, IsOptional } from 'class-validator';
+import {
+  IsString,
+  MinLength,
+  IsOptional,
+  IsArray,
+  IsIn,
+} from 'class-validator';
 export class CreateCategoriaDto {
   @IsString()
   @MinLength(1)
@@ -7,4 +13,16 @@ export class CreateCategoriaDto {
   @IsString()
   @IsOptional()
   Cphoto: string;
+
+  @IsString({ each: true })
+  @IsArray()
+  @IsOptional()
+  tags: string[];
+
+  @IsIn(['active', 'inactive'])
+  estado: string;
+
+  @IsOptional()
+  @IsString()
+  slug: string;
 }

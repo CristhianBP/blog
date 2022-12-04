@@ -1,5 +1,7 @@
 import { Publicaciones } from 'src/publicaciones/entities/publicacione.entity';
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -25,6 +27,26 @@ export class Categoria {
   })
   Cphoto: string;
 
+  @Column({
+    type: 'text',
+    array: true,
+    default: [],
+  })
+  tags: string[];
+
+  @Column({
+    type: 'text',
+    nullable: true,
+  })
+  estado: string;
+
+  @Column({
+    unique: true,
+    type: 'text',
+    nullable: true,
+  })
+  slug: string;
+
   @CreateDateColumn({
     type: 'timestamp without time zone',
     name: 'C_creado',
@@ -37,4 +59,17 @@ export class Categoria {
     onUpdate: 'CASCADE',
   })
   publicaciones: Publicaciones;
+
+  @BeforeInsert()
+  checkSlugInsert() {
+    if (!this.slug) {
+      this.slug = this.Cdescription;
+    }
+    this.slug = this.slug.replaceAll('_', '').replaceAll("'", '').toLowerCase();
+  }
+
+  @BeforeUpdate()
+  checkslugUpdate() {
+    this.checkSlugInsert();
+  }
 }
