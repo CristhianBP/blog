@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Publicaciones } from 'src/publicaciones/entities/publicacione.entity';
 import {
   BeforeInsert,
@@ -11,9 +12,20 @@ import {
 
 @Entity({ name: 'category' })
 export class Categoria {
+  @ApiProperty({
+    example: 'ebbcf0c8-f966-4b7b-bca1-3b017e980066',
+    description: 'Categoria id',
+    uniqueItems: true,
+  })
   @PrimaryGeneratedColumn('uuid')
   IdCategory: string;
 
+  @ApiProperty({
+    example: 'deports',
+    description: 'description category',
+    uniqueItems: true,
+    maxLength: 100,
+  })
   @Column({
     type: 'varchar',
     length: 100,
@@ -21,12 +33,22 @@ export class Categoria {
   })
   Cdescription: string;
 
+  @ApiProperty({
+    example: 'http://img.com',
+    description: 'photo',
+  })
   @Column({
     type: 'text',
     nullable: true,
   })
   Cphoto: string;
 
+  @ApiProperty({
+    example: '[deports,music]',
+    description: 'tags categorias',
+    isArray: true,
+    default: [],
+  })
   @Column({
     type: 'text',
     array: true,
@@ -34,12 +56,22 @@ export class Categoria {
   })
   tags: string[];
 
+  @ApiProperty({
+    example: 'true',
+    description: 'estado categoria',
+    nullable: true,
+  })
   @Column({
     type: 'text',
     nullable: true,
   })
   estado: string;
 
+  @ApiProperty({
+    example: '/deports',
+    description: 'url amigable',
+    nullable: true,
+  })
   @Column({
     unique: true,
     type: 'text',
@@ -47,6 +79,10 @@ export class Categoria {
   })
   slug: string;
 
+  @ApiProperty({
+    example: '2022-12-03 20:16:11.130795',
+    description: 'fecha creacion categoria',
+  })
   @CreateDateColumn({
     type: 'timestamp without time zone',
     name: 'C_creado',
